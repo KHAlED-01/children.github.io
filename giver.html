@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>صفحة الكفلاء - نظام كفالة الأيتام</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Cairo', sans-serif; margin:0; background:#f9f9f9; color:#333; }
+    header { background:#0a7; color:#fff; padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; }
+    header h1 { margin:0; font-size:1.5rem; }
+    nav ul { list-style:none; display:flex; gap:1rem; margin:0; padding:0; }
+    nav a { color:#fff; text-decoration:none; font-weight:bold; }
+    .menu-toggle { display:none; cursor:pointer; font-size:1.5rem; }
+    .hero {
+      background:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url('sponsors-banner.jpg') center/cover;
+      color:#fff; text-align:center; padding:3rem 2rem;
+    }
+    .hero h2 { font-size:2rem; margin-bottom:1rem; }
+    /* أيقونة السلة */
+    .cart-icon {
+      cursor:pointer; font-size:1.5rem; background:#fff; color:#0a7;
+      padding:0.5rem 1rem; border-radius:5px; box-shadow:0 2px 6px rgba(0,0,0,0.2);
+    }
+    /* السلة الجانبية */
+    .sidebar {
+      position:fixed; top:0; right:-350px; width:300px; height:100%;
+      background:#fff; box-shadow:-2px 0 10px rgba(0,0,0,0.2);
+      transition:right 0.3s ease; padding:1rem; overflow-y:auto; z-index:1000;
+    }
+    .sidebar.open { right:0; }
+    .sidebar h3 { color:#0a7; margin-bottom:1rem; }
+    .sidebar ul { list-style:none; padding:0; }
+    .sidebar li { margin-bottom:0.8rem; border-bottom:1px solid #eee; padding-bottom:0.5rem; }
+    .sidebar .total { font-weight:bold; color:#f7b733; margin-top:1rem; }
+    .close-sidebar { cursor:pointer; color:red; font-weight:bold; float:left; }
+    /* بطاقات الكفلاء */
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; padding:2rem; }
+    .card { background:#fff; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.1); padding:1rem; transition:transform 0.3s; }
+    .card:hover { transform:scale(1.05); }
+    .card h3 { margin:0.5rem 0; color:#0a7; }
+    .card p { line-height:1.6; }
+    .btn { background:#f7b733; color:#fff; padding:0.7rem 1.2rem; border:none; border-radius:5px; font-size:1rem; cursor:pointer; margin:0.5rem 0; }
+    .btn:hover { background:#ff9800; }
+    footer { background:#333; color:#fff; text-align:center; padding:1rem; margin-top:2rem; }
+    @media(max-width:768px){
+      nav ul { display:none; flex-direction:column; background:#0a7; position:absolute; top:60px; right:0; width:200px; }
+      nav ul.show { display:flex; }
+      .menu-toggle { display:block; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>نظام كفالة الأيتام</h1>
+  <div class="menu-toggle">☰</div>
+  <nav>
+    <ul>
+      <li><a href="index.html">الرئيسية</a></li>
+      <li><a href="poor.html">الأيتام</a></li>
+      <li><a href="giver.html">الكفلاء</a></li>
+      <li><a href="about us.html">عنا</a></li>
+    </ul>
+  </nav>
+  <div class="cart-icon" id="cartIcon">🛒 السلة</div>
+</header>
+
+<section class="hero">
+  <h2>الكفلاء</h2>
+  <p>هنا تجد قائمة الكفلاء ومساهماتهم في دعم الأيتام.</p>
+</section>
+
+<!-- السلة الجانبية -->
+<div class="sidebar" id="sidebar">
+  <span class="close-sidebar" id="closeSidebar">&times;</span>
+  <h3>🛒 السلة</h3>
+  <ul id="cartList"></ul>
+  <div class="total">المجموع الكلي: <span id="cartTotal">0</span> ريال</div>
+</div>
+
+<!-- بطاقات الكفلاء -->
+<section class="cards">
+  <div class="card">
+    <h3>الكفيل: أحمد</h3>
+    <p>عدد الكفالات: 3</p>
+    <p>المبلغ المدفوع: 1500000 جنيه سوداني</p>
+    <button class="btn addToCart" data-name="أحمد" data-amount="150000">إضافة إلى السلة</button>
+  </div>
+  <div class="card">
+    <h3>الكفيل: فاطمة</h3>
+    <p>عدد الكفالات: 2</p>
+    <p>المبلغ المدفوع: 100000 جنيه سوداني</p>
+    <button class="btn addToCart" data-name="فاطمة" data-amount="100000">إضافة إلى السلة</button>
+  </div>
+  <div class="card">
+    <h3>الكفيل: خالد</h3>
+    <p>عدد الكفالات: 4</p>
+    <p>المبلغ المدفوع: 2000000 جنيه سوداني</p>
+    <button class="btn addToCart" data-name="خالد" data-amount="200000">إضافة إلى السلة</button>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 جمعية كفالة الأيتام - جميع الحقوق محفوظة</p>
+</footer>
+
+<script>
+  // القائمة المتجاوبة
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navUl = document.querySelector('nav ul');
+  menuToggle.addEventListener('click', () => navUl.classList.toggle('show'));
+
+  // السلة الجانبية
+  const cartIcon = document.getElementById('cartIcon');
+  const sidebar = document.getElementById('sidebar');
+  const closeSidebar = document.getElementById('closeSidebar');
+  const cartList = document.getElementById('cartList');
+  const cartTotalEl = document.getElementById('cartTotal');
+
+  let cartTotal = 0;
+
+  cartIcon.addEventListener('click', () => sidebar.classList.add('open'));
+  closeSidebar.addEventListener('click', () => sidebar.classList.remove('open'));
+
+  // إضافة مساهمات إلى السلة
+  document.querySelectorAll('.addToCart').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const name = btn.getAttribute('data-name');
+      const amount = parseInt(btn.getAttribute('data-amount'));
+      const li = document.createElement('li');
+      li.textContent = `الكفيل ${name} - ${amount} ريال`;
+      cartList.appendChild(li);
+      cartTotal += amount;
+      cartTotalEl.textContent = cartTotal;
+      alert("تمت إضافة مساهمة الكفيل إلى السلة ✅");
+    });
+  });
+</script>
+
+</body>
+</html>

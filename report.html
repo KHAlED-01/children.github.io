@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>التقارير - نظام كفالة الأيتام</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: 'Cairo', sans-serif; margin:0; background:#f9f9f9; color:#333; }
+    header { background:#0a7; color:#fff; padding:1rem 2rem; display:flex; justify-content:space-between; align-items:center; }
+    header h1 { margin:0; font-size:1.5rem; }
+    nav ul { list-style:none; display:flex; gap:1rem; margin:0; padding:0; }
+    nav a { color:#fff; text-decoration:none; font-weight:bold; }
+    .dashboard { padding:2rem; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.5rem; margin-bottom:2rem; }
+    .card { background:#fff; border-radius:10px; box-shadow:0 4px 8px rgba(0,0,0,0.1); padding:1rem; text-align:center; }
+    .card h3 { color:#0a7; margin-bottom:0.5rem; }
+    .card p { font-size:1.2rem; font-weight:bold; }
+    .chart-container { background:#fff; padding:1rem; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1); margin-bottom:2rem; }
+    .chart-container div{width: 45%; margin:auto ; }
+    table { width:100%; border-collapse:collapse; margin-bottom:2rem; background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 4px 8px rgba(0,0,0,0.1); }
+    table th, table td { padding:1rem; border-bottom:1px solid #eee; text-align:center; }
+    table th { background:#0a7; color:#fff; }
+    footer { background:#333; color:#fff; text-align:center; padding:1rem; margin-top:2rem; }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>التقارير</h1>
+  <nav>
+    <ul>
+      <li><a href="admin dashboard.html">الرئيسية</a></li>
+      <li><a href="admin-poor.html">إدارة الأيتام</a></li>
+      <li><a href="Admin – Manage Sponsors.html">إدارة الكفلاء</a></li>
+      <li><a href="report.html">التقارير</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="dashboard">
+  <!-- بطاقات إحصائية -->
+  <section class="cards">
+    <div class="card">
+      <h3>عدد الأيتام المكفولين</h3>
+      <p id="orphansSponsored">120</p>
+    </div>
+    <div class="card">
+      <h3>عدد الأيتام المحتاجين</h3>
+      <p id="orphansNeeded">80</p>
+    </div>
+    <div class="card">
+      <h3>إجمالي التبرعات</h3>
+      <p id="totalDonations">150,000 ريال</p>
+    </div>
+  </section>
+
+  <!-- مخطط خطي -->
+  <div class="chart-container">
+    <h2 style="text-align:center; color:#0a7;">التبرعات الشهرية</h2>
+    <canvas id="lineChart"></canvas>
+  </div>
+
+  <!-- مخطط دائري -->
+  <div class="chart-container" >
+  </div>
+    <h2 style="text-align:center; color:#0a7;">نسبة الأيتام المكفولين</h2>
+    <canvas id="doughnutChart"></canvas>
+    <canvas id="myChart" width="400" height="300"></canvas>
+</div>
+  </div>
+
+  <!-- جدول ملخص -->
+  <h2>ملخص شهري</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>الشهر</th>
+        <th>عدد الكفالات</th>
+        <th>المبلغ المدفوع</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>يناير</td>
+        <td>30</td>
+        <td>20,000 ريال</td>
+      </tr>
+      <tr>
+        <td>فبراير</td>
+        <td>35</td>
+        <td>25,000 ريال</td>
+      </tr>
+      <tr>
+        <td>مارس</td>
+        <td>40</td>
+        <td>30,000 ريال</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>
+  <p>© 2025 جمعية كفالة الأيتام - جميع الحقوق محفوظة</p>
+</footer>
+
+<script>
+  // مخطط خطي للتبرعات الشهرية
+  const ctxLine = document.getElementById('lineChart').getContext('2d');
+  new Chart(ctxLine, {
+    type: 'line',
+    data: {
+      labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو'],
+      datasets: [{
+        label: 'التبرعات بالريال',
+        data: [20000, 25000, 30000, 28000, 47000],
+        borderColor: '#0a7',
+        backgroundColor: 'rgba(10, 167, 100, 0.2)',
+        fill: true
+      }]
+    },
+    options: { responsive: true }
+  });
+
+  // مخطط دائري لنسبة الأيتام المكفولين
+  const ctxDoughnut = document.getElementById('doughnutChart').getContext('2d');
+  new Chart(ctxDoughnut, {
+    type: 'doughnut',
+    data: {
+      labels: ['مكفولون', 'محتاجون'],
+      datasets: [{
+        data: [120, 80],
+        backgroundColor: ['#0a7', '#f7b733']
+      }]
+    },
+    options: { responsive: true }
+  });
+</script>
+
+</body>
+</html>

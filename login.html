@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#0f172a;        /* deep slate */
+      --bg2:#1e293b;        /* slate */
+      --accent:#22c55e;     /* green */
+      --accent-contrast:#052e1a;
+      --text:#e5e7eb;       /* light */
+      --muted:#94a3b8;      /* gray */
+      --ring:#22c55e33;     /* subtle */
+      --card:#ffffff10;     /* glass */
+      --radius:14px;
+      --shadow:0 20px 40px rgba(0,0,0,.35);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--text);
+      background: radial-gradient(1200px 600px at 20% 10%, #0b1022 0%, var(--bg1) 35%, var(--bg2) 100%),
+                  linear-gradient(120deg, #0b1022 0%, #0f172a 60%, #1e293b 100%);
+      display:grid;
+      place-items:center;
+      padding:24px;
+    }
+
+    .container{
+      width:100%;
+      max-width:960px;
+      display:grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap:28px;
+    }
+    @media (max-width: 900px){
+      .container{grid-template-columns:1fr}
+    }
+
+    .panel{
+      position:relative;
+      border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      backdrop-filter: blur(14px);
+      box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,.12);
+      overflow:hidden;
+    }
+
+    .hero{
+      min-height:380px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      padding:28px;
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(650px 300px at 75% 20%, rgba(34,197,94,.18) 0%, transparent 60%),
+        radial-gradient(500px 240px at 25% 85%, rgba(59,130,246,.18) 0%, transparent 60%);
+      pointer-events:none;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      z-index:1;
+    }
+    .logo{
+      width:42px;height:42px;border-radius:10px;
+      background:linear-gradient(135deg, var(--accent), #38bdf8);
+      box-shadow:0 10px 20px rgba(34,197,94,.35);
+    }
+    .brand h1{
+      margin:0;font-size:20px;font-weight:600;letter-spacing:.2px
+    }
+    .pitch{
+      z-index:1;
+      max-width:560px;
+    }
+    .pitch h2{margin:0 0 10px;font-size:28px;font-weight:600}
+    .pitch p{margin:0;color:var(--muted);line-height:1.6}
+
+    .stats{
+      z-index:1;
+      display:flex;gap:18px;flex-wrap:wrap;margin-top:18px
+    }
+    .stat{
+      padding:10px 14px;border-radius:10px;background:#0b1220cc;border:1px solid rgba(255,255,255,.08);
+      color:#cbd5e1;font-size:13px
+    }
+
+    .form{
+      padding:28px;
+      display:flex;flex-direction:column;gap:18px;
+    }
+    .form header{
+      display:flex;justify-content:space-between;align-items:center;margin-bottom:6px
+    }
+    .form h3{margin:0;font-size:20px;font-weight:600}
+    .form .sub{color:var(--muted);font-size:13px}
+
+    .field{
+      display:flex;flex-direction:column;gap:8px
+    }
+    .label{
+      font-size:13px;color:#cbd5e1
+    }
+    .control{
+      position:relative
+    }
+    .input{
+      width:100%;padding:12px 44px 12px 42px;
+      border-radius:12px;border:1px solid rgba(255,255,255,.14);
+      background:#0b1220cc;color:var(--text);
+      outline:none;transition:border .15s, box-shadow .15s;
+    }
+    .input::placeholder{color:#718096}
+    .input:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 4px var(--ring);
+    }
+    .icon{
+      position:absolute;left:14px;top:50%;transform:translateY(-50%);
+      width:18px;height:18px;border-radius:4px;background:linear-gradient(135deg,#64748b,#94a3b8);
+      opacity:.9
+    }
+    .toggle{
+      position:absolute;right:10px;top:50%;transform:translateY(-50%);
+      font-size:12px;color:#94a3b8;background:transparent;border:none;cursor:pointer;padding:6px 8px;
+    }
+    .row{
+      display:flex;justify-content:space-between;align-items:center;gap:12px
+    }
+    .checkbox{
+      display:flex;align-items:center;gap:10px;color:#cbd5e1;font-size:13px
+    }
+    .checkbox input{
+      width:16px;height:16px;border-radius:4px;border:1px solid rgba(255,255,255,.18);
+      appearance:none;background:#0b1220cc;position:relative
+    }
+    .checkbox input:checked{
+      background:var(--accent);border-color:var(--accent)
+    }
+    .checkbox input:checked::after{
+      content:"";position:absolute;inset:3px;background:white;border-radius:2px
+    }
+    .link{
+      font-size:13px;color:#93c5fd;text-decoration:none
+    }
+    .link:hover{text-decoration:underline}
+
+    .actions{display:flex;flex-direction:column;gap:12px;margin-top:6px}
+    .btn{
+      display:inline-flex;justify-content:center;align-items:center;
+      gap:10px;padding:12px 14px;border-radius:12px;border:0;cursor:pointer;
+      font-weight:600
+    }
+    .btn-primary{
+      background:linear-gradient(135deg, var(--accent), #16a34a);
+      color:#062e18;box-shadow:0 12px 22px rgba(34,197,94,.35)
+    }
+    .btn-primary:hover{filter:brightness(1.05)}
+    .btn-outline{
+      background:transparent;color:#cbd5e1;border:1px solid rgba(255,255,255,.14)
+    }
+    .providers{display:flex;gap:10px;flex-wrap:wrap}
+    .provider{
+      flex:1;min-width:140px
+    }
+
+    .legal{
+      margin-top:8px;font-size:12px;color:#94a3b8
+    }
+
+    /* Subtle footer */
+    .footer{
+      margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08);
+      display:flex;justify-content:space-between;color:#94a3b8;font-size:12px
+    }
+
+    /* Small screens tweaks */
+    @media (max-width: 520px){
+      .form{padding:22px}
+      .pitch h2{font-size:24px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Left: Hero / brand -->
+    <section class="panel hero">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <h1>Acme</h1>
+      </div>
+
+      <div class="pitch">
+        <h2>Welcome back</h2>
+        <p>Sign in to access your dashboard, track progress, and pick up where you left off.</p>
+        <div class="stats">
+          <div class="stat">Secure by default</div>
+          <div class="stat">SSO-ready</div>
+          <div class="stat">99.9% uptime</div>
+        </div>
+      </div>
+
+      <div style="z-index:1;">
+        <div class="footer">
+          <span>© 2025 Acme Inc.</span>
+          <span>Need help? support@acme.com</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right: Login form -->
+    <section class="panel form" aria-label="Login form">
+      <header>
+        <h3>Sign in</h3>
+        <span class="sub">New here? <a class="link" href="#">Create account</a></span>
+      </header>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label class="label" for="email">Email</label>
+          <div class="control">
+            <span class="icon" aria-hidden="true"></span>
+            <input class="input" id="email" name="email" type="email" placeholder="you@example.com" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label" for="password">Password</label>
+          <div class="control">
+            <span class="icon" aria-hidden="true"></span>
+            <input class="input" id="password" name="password" type="password" placeholder="••••••••" required minlength="6" />
+            <button class="toggle" type="button" id="togglePwd">Show</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <label class="checkbox">
+            <input type="checkbox" id="remember" />
+            Remember me
+          </label>
+          <a class="link" href="#">Forgot password?</a>
+        </div>
+
+        <div class="actions">
+          <button class="btn btn-primary" type="submit">Sign in</button>
+          <div class="providers">
+            <button class="btn btn-outline provider" type="button">Continue with Google</button>
+            <button class="btn btn-outline provider" type="button">Continue with GitHub</button>
+          </div>
+        </div>
+
+        <p class="legal">By continuing, you agree to our Terms and acknowledge our Privacy Policy.</p>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    const toggle = document.getElementById('togglePwd');
+    const pwd = document.getElementById('password');
+    toggle.addEventListener('click', () => {
+      const isText = pwd.type === 'text';
+      pwd.type = isText ? 'password' : 'text';
+      toggle.textContent = isText ? 'Show' : 'Hide';
+    });
+
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const password = pwd.value.trim();
+      if (!email || password.length < 6) {
+        alert('Please enter a valid email and a password of at least 6 characters.');
+        return;
+      }
+      // Replace with your real submit call
+      alert('Signed in (demo). Hook this up to your backend.');
+    });
+  </script>
+</body>
+</html>
